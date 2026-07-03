@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Meeting Review — Technical Plan</title>
+<style>
+:root {
+  --ground: #ffffff;
+  --ink: #0d1321;
+  --ink-soft: #3f4a5c;
+  --hairline: #d7dce4;
+  --rule: #0d1321;
+  --accent: #1c3faa;
+  --good: #106a41;
+  --good-soft: #e7f3ec;
+  --warn: #8a5d00;
+  --warn-soft: #f8f1de;
+  --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #0b0e14;
+    --ink: #f2f4f8;
+    --ink-soft: #aeb8c8;
+    --hairline: #2a3140;
+    --rule: #f2f4f8;
+    --accent: #9db4ff;
+    --good: #5ccb95;
+    --good-soft: #14251c;
+    --warn: #dcae52;
+    --warn-soft: #272012;
+  }
+}
+:root[data-theme="light"] {
+  --ground: #ffffff;
+  --ink: #0d1321;
+  --ink-soft: #3f4a5c;
+  --hairline: #d7dce4;
+  --rule: #0d1321;
+  --accent: #1c3faa;
+  --good: #106a41;
+  --good-soft: #e7f3ec;
+  --warn: #8a5d00;
+  --warn-soft: #f8f1de;
+}
+:root[data-theme="dark"] {
+  --ground: #0b0e14;
+  --ink: #f2f4f8;
+  --ink-soft: #aeb8c8;
+  --hairline: #2a3140;
+  --rule: #f2f4f8;
+  --accent: #9db4ff;
+  --good: #5ccb95;
+  --good-soft: #14251c;
+  --warn: #dcae52;
+  --warn-soft: #272012;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+
+.topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 10; height: 48px;
+  display: flex; align-items: center; gap: 18px; padding: 0 22px;
+  background: var(--ground); border-bottom: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 11.5px;
+}
+.topbar .brand { letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; font-weight: 600; }
+.topbar .navlinks { display: flex; gap: 2px; overflow-x: auto; flex: 1; scrollbar-width: none; }
+.topbar .navlinks::-webkit-scrollbar { display: none; }
+.topbar .navlinks a { color: var(--ink-soft); text-decoration: none; padding: 4px 8px; white-space: nowrap; border-bottom: 2px solid transparent; }
+.topbar .navlinks a.live { color: var(--ink); border-bottom-color: var(--ink); font-weight: 600; }
+.topbar .counter { color: var(--ink-soft); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.deck { height: 100dvh; }
+section.slide { display: none; height: 100%; overflow-y: auto; }
+section.slide.current { display: block; }
+.inner { max-width: 880px; margin: 0 auto; padding: 104px 52px 130px; }
+section.slide.current .inner { animation: rise .26s ease; }
+@keyframes rise { from { opacity: 0; transform: translateY(6px); } }
+
+.stepper { position: fixed; right: 26px; bottom: 24px; z-index: 10; display: flex; gap: 8px; }
+.stepper button {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 1px solid var(--rule); background: var(--ground); color: var(--ink);
+  font-size: 17px; cursor: pointer; line-height: 1;
+}
+.stepper button:hover { background: var(--ink); color: var(--ground); }
+
+@media (max-width: 900px) {
+  .topbar { position: static; height: auto; flex-wrap: wrap; padding: 10px 16px; }
+  .deck { height: auto; }
+  section.slide { display: block; height: auto; overflow: visible; }
+  section.slide.current .inner { animation: none; }
+  .inner { padding: 40px 20px 56px; }
+  .stepper { display: none; }
+}
+
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); margin: 0 0 22px; }
+.eyebrow b { color: var(--accent); font-weight: 600; }
+h1 { font-family: var(--serif); font-size: clamp(34px, 4.8vw, 52px); line-height: 1.12; letter-spacing: -0.01em; font-weight: 600; margin: 0 0 22px; text-wrap: balance; }
+h2 { font-family: var(--serif); font-size: clamp(26px, 3.2vw, 36px); line-height: 1.16; letter-spacing: -0.008em; font-weight: 600; margin: 0 0 18px; text-wrap: balance; }
+h3 { font-size: 12.5px; font-family: var(--mono); letter-spacing: .14em; text-transform: uppercase; font-weight: 600; margin: 38px 0 6px; color: var(--ink-soft); }
+p.lead { font-size: 19px; line-height: 1.55; max-width: 60ch; margin: 0 0 8px; }
+p { max-width: 66ch; }
+.soft { color: var(--ink-soft); }
+strong { font-weight: 650; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 0 44px; margin: 36px 0 8px; border-top: 1px solid var(--rule); }
+.chip { padding: 16px 0 0; min-width: 160px; }
+.chip .n { font-family: var(--mono); font-size: 24px; font-weight: 600; display: block; font-variant-numeric: tabular-nums; }
+.chip .l { font-size: 13px; color: var(--ink-soft); }
+
+.flow { margin: 30px 0; }
+.step { display: grid; grid-template-columns: 96px 1fr; gap: 22px; padding: 15px 0; }
+.step .k { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 600; padding-top: 4px; letter-spacing: .08em; text-transform: uppercase; }
+.step .d { font-size: 16.5px; max-width: 60ch; }
+
+.rail7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin: 32px 0 10px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.node { text-align: center; }
+.node .num { font-family: var(--mono); font-size: 11px; color: var(--accent); display: block; }
+.node .nm { font-family: var(--serif); font-weight: 600; font-size: 15.5px; display: block; margin-top: 3px; }
+@media (max-width: 900px) { .rail7 { grid-template-columns: repeat(2, 1fr); row-gap: 14px; } }
+.legend { display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(4, auto); gap: 4px 48px; margin: 22px 0; }
+.legend div { font-size: 15px; padding: 9px 0; }
+.legend b { font-weight: 700; }
+@media (max-width: 900px) { .legend { grid-template-columns: 1fr; grid-auto-flow: row; grid-template-rows: none; } }
+
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 26px 52px; margin: 30px 0; }
+.grid2 .g b { display: block; font-family: var(--serif); font-size: 17.5px; font-weight: 600; margin-bottom: 3px; }
+.grid2 .g { font-size: 15px; color: var(--ink-soft); }
+.grid2 .g b { color: var(--ink); }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; gap: 18px; } }
+
+.airy { padding-left: 0; margin: 26px 0; list-style: none; }
+.airy li { margin: 0 0 18px; max-width: 66ch; font-size: 15.5px; color: var(--ink-soft); }
+.airy li b { display: block; font-family: var(--serif); font-size: 17.5px; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+
+.cardlist { display: grid; gap: 0; margin: 26px 0; border-top: 1px solid var(--rule); }
+.card { padding: 20px 0; border-bottom: 1px solid var(--hairline); }
+.card h4 { font-family: var(--serif); font-size: 19px; font-weight: 600; margin: 0 0 6px; }
+.card p { margin: 4px 0 0; font-size: 15.5px; }
+
+.own { display: inline-block; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; padding: 2px 9px; border-radius: 99px; vertical-align: 2px; margin-left: 10px; }
+.own.ours { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+.own.yours { background: var(--warn-soft); color: var(--warn); }
+.own.shared { background: var(--good-soft); color: var(--good); }
+
+table { border-collapse: collapse; width: 100%; margin: 24px 0; font-size: 15.5px; border-top: 1px solid var(--rule); }
+th { text-align: left; font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; padding: 10px 16px 10px 0; border-bottom: 1px solid var(--hairline); }
+td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tablewrap { overflow-x: auto; }
+
+.callout { border-left: 2px solid var(--rule); padding: 4px 0 4px 22px; margin: 30px 0; max-width: 66ch; }
+.callout p { margin: 0; font-size: 16px; }
+.callout .meta { font-family: var(--mono); font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 8px; }
+
+.decision { counter-increment: dec; }
+.decision h4::before { content: counter(dec) " · "; font-family: var(--mono); font-size: 14px; color: var(--accent); }
+#decisions .cardlist { counter-reset: dec; }
+.needs { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-top: 8px; display: block; }
+
+.slidefoot { margin-top: 48px; font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="brand">Technical plan</span>
+  <div class="navlinks" id="navlinks">
+    <a href="#top">Start</a>
+    <a href="#experience">Experience</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#capture">Capture</a>
+    <a href="#identity">Identity</a>
+    <a href="#guarantees">Guarantees</a>
+    <a href="#link">The link</a>
+    <a href="#infra">Email &amp; infra</a>
+    <a href="#risks">Risks</a>
+    <a href="#testing">Testing</a>
+    <a href="#build">Build</a>
+    <a href="#cost">Cost</a>
+    <a href="#decisions">Decisions</a>
+  </div>
+  <span class="counter" id="counter">1 / 13</span>
+</div>
+
+<div class="deck" id="deck">
+
+<section class="slide" id="top"><div class="inner">
+  <p class="eyebrow">Technical plan · <b>July 2026</b></p>
+  <h1>The meeting ends. The review arrives.</h1>
+  <p class="lead">From your clients' meetings to each participant's inbox — capture, generation, and delivery, engineered around one promise: <strong>the right person gets the right review, and no one is ever skipped silently.</strong></p>
+  <div class="chips">
+    <div class="chip"><span class="n">≤ 20 min</span><span class="l">meeting end to inbox</span></div>
+    <div class="chip"><span class="n">~$1.20</span><span class="l">per meeting — 10 people, one hour</span></div>
+    <div class="chip"><span class="n">25–30 h</span><span class="l">three stages, capped at 30</span></div>
+  </div>
+  <p class="slidefoot">Zoom and Microsoft Teams · → steps through · 13 slides</p>
+</div></section>
+
+<section class="slide" id="experience"><div class="inner">
+  <p class="eyebrow"><b>01</b> · The experience</p>
+  <h2>One person does one thing, once. Everyone else does nothing.</h2>
+  <div class="flow">
+    <div class="step"><div class="k">once</div><div class="d">The meeting organizer connects their calendar — one screen, one time. That is how the notetaker knows which meetings to join, and where reviews go.</div></div>
+    <div class="step"><div class="k">join</div><div class="d">A self-announcing notetaker joins the room with them.</div></div>
+    <div class="step"><div class="k">leave</div><div class="d">Nothing is asked of anyone.</div></div>
+    <div class="step"><div class="k">receive</div><div class="d">Within 20 minutes: an email from your domain. The meeting, the date, one button.</div></div>
+    <div class="step"><div class="k">read</div><div class="d">One click opens their review. Any device, 30 days — then one press resends a fresh link to the same address.</div></div>
+  </div>
+  <p class="soft">Every page, in the footer: <em>"prepared for &lt;name&gt; — not you? report."</em></p>
+</div></section>
+
+<section class="slide" id="pipeline"><div class="inner">
+  <p class="eyebrow"><b>02</b> · The pipeline</p>
+  <h2>Seven pieces, one spine.</h2>
+  <p class="lead">Each piece has one job — and a named behavior when it fails.</p>
+  <div class="rail7">
+    <div class="node"><span class="num">1</span><span class="nm">Capture</span></div>
+    <div class="node"><span class="num">2</span><span class="nm">Identity</span></div>
+    <div class="node"><span class="num">3</span><span class="nm">Generation</span></div>
+    <div class="node"><span class="num">4</span><span class="nm">Checks</span></div>
+    <div class="node"><span class="num">5</span><span class="nm">The page</span></div>
+    <div class="node"><span class="num">6</span><span class="nm">The email</span></div>
+    <div class="node"><span class="num">7</span><span class="nm">The ledger</span></div>
+  </div>
+  <div class="legend">
+    <div><b>Capture</b> — a notetaker bot; transcript and attendee list, minutes after the end.</div>
+    <div><b>Identity</b> — one locked table: person → email → review → link.</div>
+    <div><b>Generation</b> — Claude runs your review logic. Faithfully, versioned.</div>
+    <div><b>Checks</b> — machine checks before anything sends; doubt holds.</div>
+    <div><b>The page</b> — a private page behind a hardened link. Your design, our serving.</div>
+    <div><b>The email</b> — from your domain; the link and nothing else.</div>
+    <div><b>The ledger</b> — a row per person per meeting; every row ends accounted for.</div>
+  </div>
+  <div class="callout">
+    <span class="meta">The responsibility line</span>
+    <p>The wrong person seeing a review is our failure. No one seeing one is our failure. Either happening <em>silently</em> would be a failure on top — the ledger exists so it can't. The mirror line: we run your review logic exactly as given; judging the coaching stays yours.</p>
+  </div>
+</div></section>
+
+<section class="slide" id="capture"><div class="inner">
+  <p class="eyebrow"><b>03</b> · Capture</p>
+  <h2>The bot seat: bought, not built.</h2>
+  <p class="lead">Recall.ai puts notetaker bots into Zoom and Teams meetings at industrial scale. Roughly 300 companies build on it — Instacart among them, alongside meeting products like Fellow and BrightHire.</p>
+  <div class="grid2">
+    <div class="g"><b>SOC 2 Type II</b>an independent auditor watched their security controls run for months — the certificate enterprise IT asks for first</div>
+    <div class="g"><b>ISO 27001</b>the international security-program standard, audited yearly</div>
+    <div class="g"><b>Zoom Preferred Partner</b>on Zoom's own vetted shortlist, under rules Zoom keeps tightening</div>
+    <div class="g"><b>EU hosting, healthcare-grade options</b>headroom for stricter clients later</div>
+  </div>
+  <p>When a counterparty's IT asks <em>"who exactly is this in our meeting?"</em> — this is a good answer to be holding. And our code touches the vendor through one thin adapter, with a validated fallback on file.</p>
+</div></section>
+
+<section class="slide" id="identity"><div class="inner">
+  <p class="eyebrow"><b>04</b> · Identity</p>
+  <h2>One locked table decides who gets what.</h2>
+  <p class="lead">Per meeting, one registry: <strong>this person → this email → this review → this link.</strong> Chained at the database level — a crossed pair isn't caught later, it can't be written down at all.</p>
+  <ul class="airy">
+    <li><b>Names are never identity.</b> Everyone gets an internal ID on arrival; two Marks, or one Mark on two devices, can't cross wires — wires don't run through names.</li>
+    <li><b>Addresses are copied, never inferred.</b> A send address comes from the calendar record that invited that person — not from a screen name, not from the transcript.</li>
+    <li><b>Ambiguity stops the line.</b> No single confident match — that review holds, visibly. A 95% match is a 5% chance of the worst outcome, so guessing is disabled by design.</li>
+  </ul>
+</div></section>
+
+<section class="slide" id="guarantees"><div class="inner">
+  <p class="eyebrow"><b>05</b> · Delivery guarantees</p>
+  <h2>Checked by machine before every send.</h2>
+  <p class="lead">Milliseconds, on every email. A failed check stops the send — delivery is default-deny.</p>
+  <div class="grid2">
+    <div class="g"><b>One review, one person, one meeting</b>enforced by database construction, not convention</div>
+    <div class="g"><b>Ambiguity holds and alerts</b>with its reason — nothing ever sends on a guess</div>
+    <div class="g"><b>Doubled signals can't double-send</b>one email, however often the platform repeats "meeting ended"</div>
+    <div class="g"><b>Every link carries its review's fingerprint</b>the page refuses to render mismatched content</div>
+    <div class="g"><b>The email carries no review content</b>a misdelivered email is an empty envelope</div>
+    <div class="g"><b>We look before we send</b>the system opens the page, sees the right review render, then mails</div>
+    <div class="g"><b>Thin coverage defaults to no review</b>"no review: reason," recorded and visible — the line can tune as the pilot learns</div>
+  </div>
+  <div class="callout">
+    <span class="meta">Said precisely</span>
+    <p>These guarantee the review <em>generated for a person</em> reaches that person, and no one else. What it says inside inherits the transcript — a limit your product design already accepts; optional guardrails are priced under Risks.</p>
+  </div>
+</div></section>
+
+<section class="slide" id="link"><div class="inner">
+  <p class="eyebrow"><b>06</b> · The link</p>
+  <h2>One click on the surface. Every protection beneath it costs the participant nothing.</h2>
+  <div class="grid2">
+    <div class="g"><b>Unguessable</b>a 256-bit key; wrong guesses see the same "not found" as nonsense links, and mass guessing is throttled and flagged</div>
+    <div class="g"><b>Nothing to steal from us</b>we store only one-way fingerprints of links; our logs never contain one</div>
+    <div class="g"><b>Encrypted in transit</b>unreadable on hotel wifi and corporate networks alike</div>
+    <div class="g"><b>No third parties in the path</b>click-tracking off, so the link never crosses another company's servers; no analytics on the page</div>
+    <div class="g"><b>Preview-proof</b>Slack and Outlook scanners get a neutral "your review is ready" card; a pasted link leaks nothing</div>
+    <div class="g"><b>Durable on purpose</b>live for 30 days; opening consumes nothing, so scanners can't burn access</div>
+    <div class="g"><b>"Not you?" kills the link</b>one press revokes that link, and the event is recorded so it's known</div>
+  </div>
+  <p>The honest trade — the same one Loom, Fathom, and Stripe make: <strong>whoever holds the URL can read that one review.</strong> For your clients who want more:</p>
+  <div class="callout">
+    <span class="meta">Proposal — decision 6, last slide</span>
+    <p><strong>The identification toggle.</strong> Off: one-click, as above. On — flipped self-serve by any client of yours, for their own meetings — a new device asks once for a six-digit code sent to the participant's own inbox, then remembers it ~30 days. Stronger than a password in practice: it proves the inbox, which also defeats forwarding. The friction lands only on whoever chose it.</p>
+  </div>
+</div></section>
+
+<section class="slide" id="infra"><div class="inner">
+  <p class="eyebrow"><b>07</b> · Email &amp; infrastructure</p>
+  <h2>Reaching inboxes is a discipline. Staying boring is another.</h2>
+  <h3>The email path</h3>
+  <ul class="airy">
+    <li><b>Postmark carries the mail.</b> A transactional-only sender that refuses bulk marketers; independent tests rank its inbox placement first. Your mail rides that reputation, in its own stream.</li>
+    <li><b>Your domain, insulated.</b> Sending happens on a subdomain, reviews.your-domain.com — your company email is untouched.</li>
+    <li><b>Three DNS records, once.</b> DNS is your domain's public settings, managed wherever the domain was bought — GoDaddy, Cloudflare, your IT. We send three ready-made lines; whoever holds that login pastes them in. Ten minutes, one time — it is how Gmail and Outlook verify your mail is really yours. Too much trouble? We can register a dedicated review domain and pass the ~$15/year through — the trade is a new name with no history, so we recommend the subdomain.</li>
+  </ul>
+  <h3>The infrastructure</h3>
+  <ul class="airy">
+    <li><b>One application, one database, one region.</b> A footprint a future contractor reads in an afternoon.</li>
+    <li><b>Documentation is a deliverable.</b> Architecture notes, a runbook per alert, the test suite.</li>
+    <li><b>Every account transfers to you whole.</b> Ownership is a decision, not a migration.</li>
+  </ul>
+</div></section>
+
+<section class="slide" id="risks"><div class="inner">
+  <p class="eyebrow"><b>08</b> · Risks, named with owners</p>
+  <h2>Every risk here was found before the contract, not after launch.</h2>
+  <p class="lead">The full register runs 27 entries. These four shape the design.</p>
+  <div class="cardlist">
+    <div class="card">
+      <h4>Consent is the product's license to exist <span class="own shared">shared</span></h4>
+      <p>Operators of this architecture (Otter, Fireflies) are defending class actions; twelve US states require every participant's consent. Our answer is machinery we control: the bot names itself and announces the review's purpose as it joins — every meeting, logged: what was announced, when, to whom. A host script and invite wording exist as offered material, never a required step for anyone. Objections are honored and logged — eject the bot anytime; an individual opt-out means no review, their words excluded. And by architecture, reviews are <strong>claimed, never pushed</strong>: the email contains no evaluation; reading one is the participant's own act.</p>
+    </div>
+    <div class="card">
+      <h4>Teams can block outside bots from August 2026 <span class="own ours">ours to detect</span></h4>
+      <p>Next month, tenant admins get an off-switch for external notetakers. So admission is monitored per meeting from day one: the rate is in your weekly digest, a blocked counterparty is a same-day report, and Zoom's native feed — host-authorized, no bot in the room — stands as the hedge. We can't join where a tenant says no; we will never be silent about it.</p>
+    </div>
+    <div class="card">
+      <h4>EU rules ban emotion-reading at work <span class="own ours">ours, by design</span></h4>
+      <p>Reading emotion from workplace <em>voice</em> is prohibited-practice territory — fines to 7% of turnover. Transcript <em>text</em> is explicitly outside the ban, so the pipeline consumes text only, ever, as a contractual invariant.</p>
+    </div>
+    <div class="card">
+      <h4>What a review says: attribution, quotes, tone <span class="own yours">yours, informed</span></h4>
+      <p>Transcripts misattribute and occasionally garble; tone can misfire in a hard meeting. That lives inside the review logic — your side of the line, a trade your design already accepts. Guardrails we recommend and have priced (speaker-count checks, quote verification, a style constitution, a skip-and-flag breaker): <strong>separately instructed work, not silently in this contract.</strong></p>
+    </div>
+  </div>
+  <p class="soft"><strong>The dependency spine</strong>: consent per meeting → tenants admitting the bot → calendar-to-email accuracy → your three DNS records → vendor continuity → transcript quality → model availability (softest — it queues).</p>
+</div></section>
+
+<section class="slide" id="testing"><div class="inner">
+  <p class="eyebrow"><b>09</b> · Testing</p>
+  <h2>Your name rides every email we send. The testing is sized to that.</h2>
+  <h3>Before first real sends</h3>
+  <ul class="airy">
+    <li><b>Hostile rosters, by the thousand.</b> Duplicate names, diacritics, shared inboxes, no-shows. Everyone ends sent or held-with-reason; on an ambiguous roster, even a correct guess fails the test.</li>
+    <li><b>Breaking it on purpose.</b> Bot denied, ejected, empty transcript, doubled signals, our server down a day — each lands accounted and visible. Never a wrong send, never silence.</li>
+    <li><b>A staged live pass on Zoom and Teams.</b> Waiting rooms, the never-admitted bot, two identical names, a mid-meeting rename, a dial-in — recorded audio as the voices, so every hazard repeats exactly.</li>
+    <li><b>Attacking our own links.</b> Mass guessing, cross-link isolation, cache and referrer leaks, logs, scanner storms, expiry, revocation — exercised for real.</li>
+    <li><b>Placement proven before real mail.</b> Seed inboxes, yours included; re-checked weekly through the pilot.</li>
+    <li><b>The top-of-hour spike.</b> Meetings end together at :00 — tested at 3–5× peak, retry storms proven unable to double-send.</li>
+  </ul>
+  <h3>In production</h3>
+  <ul class="airy">
+    <li><b>The ledger detects silence.</b> Any row late to its state raises an alarm; the watcher is itself watched.</li>
+    <li><b>A daily rehearsal.</b> A synthetic meeting runs the whole chain into controlled inboxes; each must render its own unique marker. Weekly, the cast includes two identical names — the case that regresses quietly.</li>
+    <li><b>You stay informed without watching.</b> Alerts when something needs attention; a weekly digest of meetings, admission rate, sends, holds with reasons. Clicks counted, not "opens"; aggregates only.</li>
+  </ul>
+  <p class="soft">Recommended beyond this contract: the live pass monthly, drills automated, fuzzing to millions of cases.</p>
+</div></section>
+
+<section class="slide" id="build"><div class="inner">
+  <p class="eyebrow"><b>10</b> · Build plan</p>
+  <h2>Three stages. 25–30 hours, capped at 30, inside two part-time weeks.</h2>
+  <p class="lead">Spine first — every hour buys delivery integrity before polish. Nothing outside these stages blocks real sends.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Stage</th><th style="width:70px">Hours</th><th>What stands at the end</th></tr>
+    <tr><td><strong>A — the spine</strong></td><td class="num">~12</td><td>Bot → transcript → registry → ledger, thin but end to end; core checks; one page behind a hardened link; mail into seed inboxes. Day-one ask: the three DNS lines.</td></tr>
+    <tr><td><strong>B — the gatehouse</strong></td><td class="num">~10</td><td>The full check set; your logic in as a versioned template; the staged live pass, identity hazards first; placement verified; the demo cut.</td></tr>
+    <tr><td><strong>C — the pilot</strong></td><td class="num">~8</td><td>A ramp on your own meetings: shadow → every send approved → sampled → exception-only. Graduation by signed numbers — 200 consecutive clean sends, zero binding errors; any incident steps back one phase. The daily rehearsal and alerting go live.</td></tr>
+  </table></div>
+  <p class="soft">Our pilot reviewer checks bindings — greeting vs addressee, the right page. Judging coaching stays yours.</p>
+</div></section>
+
+<section class="slide" id="cost"><div class="inner">
+  <p class="eyebrow"><b>11</b> · Running cost</p>
+  <h2>About a dollar twenty per meeting.</h2>
+  <p class="lead">Sized at 10 participants, one hour, on published July-2026 rates. No minimums, no annual contracts.</p>
+  <div class="tablewrap"><table>
+    <tr><th>Per meeting</th><th style="width:100px">Cost</th><th>Derivation</th></tr>
+    <tr><td>Capture + transcription</td><td class="num">$0.65</td><td>$0.50 per recording-hour + $0.15 transcription, prorated to the second</td></tr>
+    <tr><td>Review generation</td><td class="num">~$0.50</td><td>≈15k tokens read + 2k written per review, Claude Sonnet 5 at $3 / $15 per million; ten reviews, transcript cached across them</td></tr>
+    <tr><td>Email delivery</td><td class="num">~$0.02</td><td>flat platform share</td></tr>
+    <tr><td><strong>All-in</strong></td><td class="num"><strong>~$1.20</strong></td><td></td></tr>
+  </table></div>
+  <p>Plus a fixed floor of <strong>$35–55/month</strong> — email platform and hosting for the one-app footprint. A 30-meeting month: <strong>about $75–90, all-in.</strong> Every account transfers to you whole.</p>
+</div></section>
+
+<section class="slide" id="decisions"><div class="inner">
+  <p class="eyebrow"><b>12</b> · Decisions today</p>
+  <h2>Six calls make the plan fully concrete. All of them are yours.</h2>
+  <p class="lead">None block the build from starting — each one settled today removes a fork.</p>
+  <div class="cardlist">
+    <div class="card decision">
+      <h4>How your review logic reaches us</h4>
+      <p>Prompt, rubric, or code — all work; it's held as a versioned template. Same for the page: your design, our serving.</p>
+      <span class="needs">Needed: the handoff form for logic and page design.</span>
+    </div>
+    <div class="card decision">
+      <h4>The Zoom / Teams mix across your clients</h4>
+      <p>It prices the August Teams change from the Risks slide.</p>
+      <span class="needs">Needed: a rough split, even anecdotal.</span>
+    </div>
+    <div class="card decision">
+      <h4>Where capture comes from</h4>
+      <p>The lead lane: the organizer's one-time calendar connection — it is how the notetaker joins at all. Without it, capture is manual: the meeting link submitted to us beforehand, or a transcript supplied after. Workable, but labor.</p>
+      <span class="needs">Needed: bless the lead lane for the pilot.</span>
+    </div>
+    <div class="card decision">
+      <h4>Expected volume</h4>
+      <p>Meetings per month, roughly — it sizes the load tests and the cost picture. English-first is set; EU exposure is low.</p>
+      <span class="needs">Needed: a number to size against.</span>
+    </div>
+    <div class="card decision">
+      <h4>Hosting posture</h4>
+      <p>Default: one boring, transferable cloud account we stand up and later hand you whole. If you — or your clients — have a posture we should sit inside, now is the moment.</p>
+      <span class="needs">Needed: inherit or stand alone.</span>
+    </div>
+    <div class="card decision">
+      <h4>Link protection mode</h4>
+      <p>One-click for everyone, verification for everyone, or the toggle from slide 06 — chosen by each of your clients for their own meetings. If the toggle: who holds it, and the default.</p>
+      <span class="needs">Needed: the mode; if toggle — holder and default. All three in scope.</span>
+    </div>
+  </div>
+  <p class="soft">Headed to contract, prepared on our side: the consent split and playbook; retention — audio purged on transcription, transcripts 30 days, links 30 with resend; account ownership at kickoff.</p>
+  <p class="slidefoot">Meeting review — technical plan · July 2026</p>
+</div></section>
+
+</div>
+<div class="stepper"><button id="prev" aria-label="Previous slide">←</button><button id="next" aria-label="Next slide">→</button></div>
+<script>
+(function () {
+  var deck = document.getElementById('deck');
+  var slides = Array.prototype.slice.call(deck.querySelectorAll('section.slide'));
+  var links = Array.prototype.slice.call(document.querySelectorAll('#navlinks a'));
+  var counter = document.getElementById('counter');
+  var idx = 0;
+  function deckMode() { return window.innerWidth > 900; }
+
+  function paint() {
+    links.forEach(function (a, i) { a.classList.toggle('live', i === idx); });
+    counter.textContent = (idx + 1) + ' / ' + slides.length;
+    var live = links[idx];
+    if (live && live.scrollIntoView) live.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+  function setSlide(i, keepScroll) {
+    idx = Math.max(0, Math.min(i, slides.length - 1));
+    if (deckMode()) {
+      slides.forEach(function (s, j) { s.classList.toggle('current', j === idx); });
+      if (!keepScroll) slides[idx].scrollTop = 0;
+      if (history.replaceState) history.replaceState(null, '', '#' + slides[idx].id);
+    } else {
+      slides[idx].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    paint();
+  }
+  function mobileIndex() {
+    var y = window.scrollY + 120, m = 0;
+    slides.forEach(function (s, i) { if (s.offsetTop <= y) m = i; });
+    return m;
+  }
+
+  links.forEach(function (a, i) {
+    a.addEventListener('click', function (ev) { ev.preventDefault(); setSlide(i); });
+  });
+  document.getElementById('prev').addEventListener('click', function () { setSlide(idx - 1); });
+  document.getElementById('next').addEventListener('click', function () { setSlide(idx + 1); });
+
+  document.addEventListener('keydown', function (ev) {
+    if (!deckMode()) return;
+    var slide = slides[idx];
+    if (ev.key === 'ArrowRight' || ev.key === 'PageDown') { setSlide(idx + 1); ev.preventDefault(); }
+    else if (ev.key === 'ArrowLeft' || ev.key === 'PageUp') { setSlide(idx - 1); ev.preventDefault(); }
+    else if (ev.key === 'ArrowDown') { slide.scrollBy({ top: slide.clientHeight * 0.7, behavior: 'smooth' }); ev.preventDefault(); }
+    else if (ev.key === 'ArrowUp') { slide.scrollBy({ top: -slide.clientHeight * 0.7, behavior: 'smooth' }); ev.preventDefault(); }
+    else if (ev.key === 'Home') { setSlide(0); ev.preventDefault(); }
+    else if (ev.key === 'End') { setSlide(slides.length - 1); ev.preventDefault(); }
+  });
+
+  var wheelLock = 0;
+  deck.addEventListener('wheel', function (ev) {
+    if (!deckMode()) return;
+    var slide = slides[idx];
+    var canDown = slide.scrollTop + slide.clientHeight < slide.scrollHeight - 2;
+    var canUp = slide.scrollTop > 2;
+    var now = Date.now();
+    if (ev.deltaY > 0 && !canDown) {
+      if (now - wheelLock > 700) { wheelLock = now; setSlide(idx + 1); }
+      ev.preventDefault();
+    } else if (ev.deltaY < 0 && !canUp) {
+      if (now - wheelLock > 700) { wheelLock = now; setSlide(idx - 1); }
+      ev.preventDefault();
+    } else {
+      wheelLock = now; /* actively scrolling inside the slide arms the lock */
+    }
+  }, { passive: false });
+
+  var touchX = null, touchY = null;
+  deck.addEventListener('touchstart', function (ev) {
+    touchX = ev.touches[0].clientX; touchY = ev.touches[0].clientY;
+  }, { passive: true });
+  deck.addEventListener('touchend', function (ev) {
+    if (!deckMode() || touchX === null) return;
+    var dx = ev.changedTouches[0].clientX - touchX;
+    var dy = ev.changedTouches[0].clientY - touchY;
+    if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.5) setSlide(dx < 0 ? idx + 1 : idx - 1);
+    touchX = touchY = null;
+  }, { passive: true });
+
+  window.addEventListener('scroll', function () { if (!deckMode()) { idx = mobileIndex(); paint(); } }, { passive: true });
+  window.addEventListener('resize', function () { setSlide(idx, true); });
+
+  var initial = 0;
+  if (location.hash) {
+    slides.forEach(function (s, i) { if ('#' + s.id === location.hash) initial = i; });
+  }
+  setSlide(initial);
+})();
+</script>
+</body>
+</html>
