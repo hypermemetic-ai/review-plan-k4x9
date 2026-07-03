@@ -201,8 +201,8 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="top"><div class="inner">
   <p class="eyebrow">Technical plan · <b>July 2026</b></p>
-  <h1>The meeting ends. The review arrives.</h1>
-  <p class="lead">From your clients' meetings to each participant's inbox — capture, generation, and delivery, engineered around one promise: <strong>the right person gets the right review, and no one is ever skipped silently.</strong></p>
+  <h1>Every participant gets a personalized review by email, within 20 minutes of the meeting.</h1>
+  <p class="lead">Capture, generation, and delivery for your clients' meetings, built to one rule: <strong>the right person gets the right review, and no one is ever skipped silently.</strong></p>
   <div class="chips">
     <div class="chip"><span class="n">≤ 20 min</span><span class="l">meeting end to inbox</span></div>
     <div class="chip"><span class="n">~$1.20</span><span class="l">per meeting — 10 people, one hour</span></div>
@@ -213,11 +213,11 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="experience"><div class="inner">
   <p class="eyebrow"><b>01</b> · The experience</p>
-  <h2>One person does one thing, once. Everyone else does nothing.</h2>
+  <h2>The organizer connects a calendar once. Nothing is asked of anyone else.</h2>
   <div class="flow">
     <div class="step"><div class="k">once</div><div class="d">The meeting organizer connects their calendar — one screen, one time. That is how the notetaker knows which meetings to join, and where reviews go.</div></div>
     <div class="step"><div class="k">join</div><div class="d">A self-announcing notetaker joins the room with them.</div></div>
-    <div class="step"><div class="k">leave</div><div class="d">Nothing is asked of anyone.</div></div>
+    <div class="step"><div class="k">leave</div><div class="d">They just leave — nothing to start, stop, or upload.</div></div>
     <div class="step"><div class="k">receive</div><div class="d">Within 20 minutes: an email from your domain. The meeting, the date, one button.</div></div>
     <div class="step"><div class="k">read</div><div class="d">One click opens their review. Any device, 30 days — then one press resends a fresh link to the same address.</div></div>
   </div>
@@ -226,7 +226,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="pipeline"><div class="inner">
   <p class="eyebrow"><b>02</b> · The pipeline</p>
-  <h2>Six pieces, one promise.</h2>
+  <h2>The pipeline, in six pieces.</h2>
   <p class="lead">Each piece has one job — and a named behavior when it fails.</p>
   <div class="rail7" style="grid-template-columns: repeat(6, 1fr)">
     <div class="node"><span class="num">1</span><span class="nm">Capture</span></div>
@@ -246,14 +246,14 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
   </div>
   <div class="callout">
     <span class="meta">The responsibility line</span>
-    <p>The wrong person seeing a review is our failure. No one seeing one is our failure. Either happening <em>silently</em> would be a failure on top — the ledger exists so it can't. The mirror line: we run your review logic exactly as given; judging the coaching stays yours.</p>
+    <p>The wrong person seeing a review is our failure. No one seeing one is our failure. Either happening <em>silently</em> would be a failure on top — the ledger exists so it can't. The other side of the line: we run your review logic exactly as given; judging the coaching stays yours.</p>
   </div>
 </div></section>
 
 <section class="slide" id="capture"><div class="inner">
   <p class="eyebrow"><b>03</b> · Capture</p>
-  <h2>The bot seat: bought, not built.</h2>
-  <p class="lead">Recall.ai puts notetaker bots into Zoom and Teams meetings at industrial scale. Roughly 300 companies build on it — Instacart among them, alongside meeting products like Fellow and BrightHire.</p>
+  <h2>We buy capture from Recall.ai rather than building our own bot.</h2>
+  <p class="lead">Recall.ai puts notetaker bots into Zoom and Teams meetings; roughly 300 companies build on it — Instacart among them, alongside meeting products like Fellow and BrightHire.</p>
   <div class="grid2">
     <div class="g"><b>SOC 2 Type II</b>an independent auditor watched their security controls run for months — the certificate enterprise IT asks for first</div>
     <div class="g"><b>ISO 27001</b>the international security-program standard, audited yearly</div>
@@ -283,7 +283,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="link"><div class="inner">
   <p class="eyebrow"><b>05</b> · The link</p>
-  <h2>One click on the surface. Every protection beneath it costs the participant nothing.</h2>
+  <h2>One click opens the review. The protections underneath add no friction.</h2>
   <div class="grid2">
     <div class="g"><b>Unguessable</b>a 256-bit key; wrong guesses see the same "not found" as nonsense links, and mass guessing is throttled and flagged</div>
     <div class="g"><b>Nothing to steal from us</b>we store only one-way fingerprints of links; our logs never contain one</div>
@@ -293,7 +293,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
     <div class="g"><b>Durable on purpose</b>live for 30 days; opening consumes nothing, so scanners can't burn access</div>
     <div class="g"><b>"Not you?" kills the link</b>one press revokes that link, and the event is recorded so it's known</div>
   </div>
-  <p>The honest trade — the same one Loom, Fathom, and Stripe make: <strong>whoever holds the URL can read that one review.</strong> For your clients who want more:</p>
+  <p>The trade is the same one Loom, Fathom, and Stripe make: <strong>whoever holds the URL can read that one review.</strong> For your clients who want more:</p>
   <div class="callout">
     <span class="meta">Proposal — decision 6, last slide</span>
     <p><strong>The identification toggle.</strong> Off: one-click, as above. On — flipped self-serve by any client of yours, for their own meetings — a new device asks once for a six-digit code sent to the participant's own inbox, then remembers it ~30 days. Stronger than a password in practice: it proves the inbox, which also defeats forwarding. The friction lands only on whoever chose it.</p>
@@ -302,10 +302,10 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="infra"><div class="inner">
   <p class="eyebrow"><b>06</b> · Email &amp; infrastructure</p>
-  <h2>Reaching inboxes is a discipline. Staying boring is another.</h2>
+  <h2>Postmark carries the mail from your subdomain; the infrastructure stays small enough to hand over.</h2>
   <h3>The email path</h3>
   <ul class="airy">
-    <li><b>Postmark carries the mail.</b> A transactional-only sender that refuses bulk marketers; independent tests rank its inbox placement first. Your mail rides that reputation, in its own stream.</li>
+    <li><b>A transactional-only sender.</b> Postmark refuses bulk marketers; independent tests rank its inbox placement first. Your mail rides that reputation, in its own stream.</li>
     <li><b>Your domain, insulated.</b> Sending happens on a subdomain, reviews.your-domain.com — your company email is untouched.</li>
     <li><b>Three lines of text, pasted once.</b> Email claiming your name must prove it, or Gmail and Outlook treat it as an imposter. We generate the proof and send it ready to paste; whoever manages your domain adds it — ten minutes, once — and review mail is authorized to carry your name. Prefer no DNS step? Mail can ride our established review domain instead — your brand in the sender name, though the address isn't yours; we recommend the three lines.</li>
   </ul>
@@ -313,17 +313,17 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
   <ul class="airy">
     <li><b>One application, one database, one region.</b> A footprint a future contractor reads in an afternoon.</li>
     <li><b>Documentation is a deliverable.</b> Architecture notes, a runbook per alert, the test suite.</li>
-    <li><b>Every account transfers to you whole.</b> Ownership is a decision, not a migration.</li>
+    <li><b>Every account transfers to you whole.</b> Hosting, email, DNS — set up from day one in accounts that hand over as they are.</li>
   </ul>
 </div></section>
 
 <section class="slide" id="risks"><div class="inner">
   <p class="eyebrow"><b>07</b> · Risks, named with owners</p>
-  <h2>Every risk here was found before the contract, not after launch.</h2>
-  <p class="lead">The full register runs 27 entries. These four shape the design.</p>
+  <h2>Four risks shape the design, and each has an owner.</h2>
+  <p class="lead">The full register runs 27 entries.</p>
   <div class="cardlist">
     <div class="card">
-      <h4>Consent is the product's license to exist <span class="own shared">shared</span></h4>
+      <h4>Every participant must consent <span class="own shared">shared</span></h4>
       <p>Operators of this architecture (Otter, Fireflies) are defending class actions; twelve US states require every participant's consent. Our answer is machinery we control: the bot names itself and announces the review's purpose as it joins — every meeting, logged: what was announced, when, to whom. A host script and invite wording exist as offered material, never a required step for anyone. Objections are honored and logged — eject the bot anytime; an individual opt-out means no review, their words excluded. And by architecture, reviews are <strong>claimed, never pushed</strong>: the email contains no evaluation; reading one is the participant's own act.</p>
     </div>
     <div class="card">
@@ -339,12 +339,12 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
       <p>Transcripts misattribute and occasionally garble; tone can misfire in a hard meeting. That lives inside the review logic — your side of the line, a trade your design already accepts. Guardrails we recommend and have priced (speaker-count checks, quote verification, a style constitution, a skip-and-flag breaker): <strong>separately instructed work, not silently in this contract.</strong></p>
     </div>
   </div>
-  <p class="soft"><strong>The dependency spine</strong>: consent per meeting → tenants admitting the bot → calendar-to-email accuracy → your three DNS records → vendor continuity → transcript quality → model availability (softest — it queues).</p>
+  <p class="soft"><strong>The dependency chain</strong>: consent per meeting → tenants admitting the bot → calendar-to-email accuracy → your three DNS records → vendor continuity → transcript quality → model availability (softest — it queues).</p>
 </div></section>
 
 <section class="slide" id="testing"><div class="inner">
   <p class="eyebrow"><b>08</b> · Testing</p>
-  <h2>Your name rides every email we send. The testing is sized to that.</h2>
+  <h2>Every email goes out under your name. The testing is sized to that.</h2>
   <h3>Before first real sends</h3>
   <ul class="airy">
     <li><b>Hostile rosters, by the thousand.</b> Duplicate names, diacritics, shared inboxes, no-shows. Everyone ends sent or held-with-reason; on an ambiguous roster, even a correct guess fails the test.</li>
@@ -366,11 +366,11 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 <section class="slide" id="build"><div class="inner">
   <p class="eyebrow"><b>09</b> · Build plan</p>
   <h2>Three stages. 25–30 hours, capped at 30, inside two part-time weeks.</h2>
-  <p class="lead">Spine first — every hour buys delivery integrity before polish. Nothing outside these stages blocks real sends.</p>
+  <p class="lead">The core pipeline first — every hour buys delivery integrity before polish. Nothing outside these stages blocks real sends.</p>
   <div class="tablewrap"><table>
     <tr><th>Stage</th><th style="width:70px">Hours</th><th>What stands at the end</th></tr>
-    <tr><td><strong>A — the spine</strong></td><td class="num">~12</td><td>Bot → transcript → registry → ledger, thin but end to end; core checks; one page behind a hardened link; mail into seed inboxes. Day-one ask: the three DNS lines.</td></tr>
-    <tr><td><strong>B — the gatehouse</strong></td><td class="num">~10</td><td>The full check set; your logic in as a versioned template; the staged live pass, identity hazards first; placement verified; the demo cut.</td></tr>
+    <tr><td><strong>A — the core pipeline</strong></td><td class="num">~12</td><td>Bot → transcript → registry → ledger, thin but end to end; core checks; one page behind a hardened link; mail into seed inboxes. Day-one ask: the three DNS lines.</td></tr>
+    <tr><td><strong>B — checks and live pass</strong></td><td class="num">~10</td><td>The full check set; your logic in as a versioned template; the staged live pass, identity hazards first; placement verified; the demo cut.</td></tr>
     <tr><td><strong>C — the pilot</strong></td><td class="num">~8</td><td>A ramp on your own meetings: shadow → every send approved → sampled → exception-only. Graduation by signed numbers — 200 consecutive clean sends, zero binding errors; any incident steps back one phase. The daily rehearsal and alerting go live.</td></tr>
   </table></div>
   <p class="soft">Our pilot reviewer checks bindings — greeting vs addressee, the right page. Judging coaching stays yours.</p>
@@ -392,8 +392,8 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="decisions"><div class="inner">
   <p class="eyebrow"><b>11</b> · Decisions today</p>
-  <h2>Six calls make the plan fully concrete. All of them are yours.</h2>
-  <p class="lead">None block the build from starting — each one settled today removes a fork.</p>
+  <h2>Six decisions we need from you. None blocks the start.</h2>
+  <p class="lead">Each one settled today removes a fork.</p>
   <div class="cardlist">
     <div class="card decision">
       <h4>How your review logic reaches us</h4>
