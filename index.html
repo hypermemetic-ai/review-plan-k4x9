@@ -185,7 +185,6 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
     <a href="#experience">Experience</a>
     <a href="#pipeline">Pipeline</a>
     <a href="#capture">Capture</a>
-    <a href="#identity">Identity</a>
     <a href="#guarantees">Guarantees</a>
     <a href="#link">The link</a>
     <a href="#infra">Email &amp; infra</a>
@@ -209,7 +208,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
     <div class="chip"><span class="n">~$1.20</span><span class="l">per meeting — 10 people, one hour</span></div>
     <div class="chip"><span class="n">25–30 h</span><span class="l">three stages, capped at 30</span></div>
   </div>
-  <p class="slidefoot">Zoom and Microsoft Teams · → steps through · 13 slides</p>
+  <p class="slidefoot">Zoom and Microsoft Teams · → steps through · 12 slides</p>
 </div></section>
 
 <section class="slide" id="experience"><div class="inner">
@@ -227,25 +226,23 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="pipeline"><div class="inner">
   <p class="eyebrow"><b>02</b> · The pipeline</p>
-  <h2>Seven pieces, one spine.</h2>
+  <h2>Six pieces, one promise.</h2>
   <p class="lead">Each piece has one job — and a named behavior when it fails.</p>
-  <div class="rail7">
+  <div class="rail7" style="grid-template-columns: repeat(6, 1fr)">
     <div class="node"><span class="num">1</span><span class="nm">Capture</span></div>
-    <div class="node"><span class="num">2</span><span class="nm">Identity</span></div>
-    <div class="node"><span class="num">3</span><span class="nm">Generation</span></div>
-    <div class="node"><span class="num">4</span><span class="nm">Checks</span></div>
-    <div class="node"><span class="num">5</span><span class="nm">The page</span></div>
-    <div class="node"><span class="num">6</span><span class="nm">The email</span></div>
-    <div class="node"><span class="num">7</span><span class="nm">The ledger</span></div>
+    <div class="node"><span class="num">2</span><span class="nm">Generation</span></div>
+    <div class="node"><span class="num">3</span><span class="nm">Checks</span></div>
+    <div class="node"><span class="num">4</span><span class="nm">The page</span></div>
+    <div class="node"><span class="num">5</span><span class="nm">The email</span></div>
+    <div class="node"><span class="num">6</span><span class="nm">The ledger</span></div>
   </div>
-  <div class="legend">
+  <div class="legend" style="grid-template-rows: repeat(3, auto)">
     <div><b>Capture</b> — a notetaker bot; transcript and attendee list, minutes after the end.</div>
-    <div><b>Identity</b> — one locked table: person → email → review → link.</div>
     <div><b>Generation</b> — Claude runs your review logic. Faithfully, versioned.</div>
     <div><b>Checks</b> — machine checks before anything sends; doubt holds.</div>
     <div><b>The page</b> — a private page behind a hardened link. Your design, our serving.</div>
     <div><b>The email</b> — from your domain; the link and nothing else.</div>
-    <div><b>The ledger</b> — a row per person per meeting; every row ends accounted for.</div>
+    <div><b>The ledger</b> — the audit trail: a row per person per meeting, every outcome accounted for, inspectable after the fact.</div>
   </div>
   <div class="callout">
     <span class="meta">The responsibility line</span>
@@ -266,24 +263,12 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
   <p>When a counterparty's IT asks <em>"who exactly is this in our meeting?"</em> — this is a good answer to be holding. And our code touches the vendor through one thin adapter, with a validated fallback on file.</p>
 </div></section>
 
-<section class="slide" id="identity"><div class="inner">
-  <p class="eyebrow"><b>04</b> · Identity</p>
-  <h2>One locked table decides who gets what.</h2>
-  <p class="lead">Per meeting, one registry: <strong>this person → this email → this review → this link.</strong> Chained at the database level — a crossed pair isn't caught later, it can't be written down at all.</p>
-  <ul class="airy">
-    <li><b>Names are never identity.</b> Everyone gets an internal ID on arrival; two Marks, or one Mark on two devices, can't cross wires — wires don't run through names.</li>
-    <li><b>Addresses are copied, never inferred.</b> A send address comes from the calendar record that invited that person — not from a screen name, not from the transcript.</li>
-    <li><b>Ambiguity stops the line.</b> No single confident match — that review holds, visibly. A 95% match is a 5% chance of the worst outcome, so guessing is disabled by design.</li>
-  </ul>
-</div></section>
-
 <section class="slide" id="guarantees"><div class="inner">
-  <p class="eyebrow"><b>05</b> · Delivery guarantees</p>
+  <p class="eyebrow"><b>04</b> · Delivery guarantees</p>
   <h2>Checked by machine before every send.</h2>
   <p class="lead">Milliseconds, on every email. A failed check stops the send — delivery is default-deny.</p>
   <div class="grid2">
-    <div class="g"><b>One review, one person, one meeting</b>enforced by database construction, not convention</div>
-    <div class="g"><b>Ambiguity holds and alerts</b>with its reason — nothing ever sends on a guess</div>
+    <div class="g"><b>Ambiguity holds and alerts</b>with its reason — nothing ever sends on a guess; addresses come from the calendar record, never from a screen name or the transcript</div>
     <div class="g"><b>Doubled signals can't double-send</b>one email, however often the platform repeats "meeting ended"</div>
     <div class="g"><b>Every link carries its review's fingerprint</b>the page refuses to render mismatched content</div>
     <div class="g"><b>The email carries no review content</b>a misdelivered email is an empty envelope</div>
@@ -297,12 +282,12 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </div></section>
 
 <section class="slide" id="link"><div class="inner">
-  <p class="eyebrow"><b>06</b> · The link</p>
+  <p class="eyebrow"><b>05</b> · The link</p>
   <h2>One click on the surface. Every protection beneath it costs the participant nothing.</h2>
   <div class="grid2">
     <div class="g"><b>Unguessable</b>a 256-bit key; wrong guesses see the same "not found" as nonsense links, and mass guessing is throttled and flagged</div>
     <div class="g"><b>Nothing to steal from us</b>we store only one-way fingerprints of links; our logs never contain one</div>
-    <div class="g"><b>Encrypted in transit</b>unreadable on hotel wifi and corporate networks alike</div>
+    <div class="g"><b>The review travels encrypted</b>between our server and the reader's device (HTTPS) — the page and its link are unreadable to the networks in between, hotel wifi and corporate proxies alike</div>
     <div class="g"><b>No third parties in the path</b>click-tracking off, so the link never crosses another company's servers; no analytics on the page</div>
     <div class="g"><b>Preview-proof</b>Slack and Outlook scanners get a neutral "your review is ready" card; a pasted link leaks nothing</div>
     <div class="g"><b>Durable on purpose</b>live for 30 days; opening consumes nothing, so scanners can't burn access</div>
@@ -316,13 +301,13 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </div></section>
 
 <section class="slide" id="infra"><div class="inner">
-  <p class="eyebrow"><b>07</b> · Email &amp; infrastructure</p>
+  <p class="eyebrow"><b>06</b> · Email &amp; infrastructure</p>
   <h2>Reaching inboxes is a discipline. Staying boring is another.</h2>
   <h3>The email path</h3>
   <ul class="airy">
     <li><b>Postmark carries the mail.</b> A transactional-only sender that refuses bulk marketers; independent tests rank its inbox placement first. Your mail rides that reputation, in its own stream.</li>
     <li><b>Your domain, insulated.</b> Sending happens on a subdomain, reviews.your-domain.com — your company email is untouched.</li>
-    <li><b>Three DNS records, once.</b> DNS is your domain's public settings, managed wherever the domain was bought — GoDaddy, Cloudflare, your IT. We send three ready-made lines; whoever holds that login pastes them in. Ten minutes, one time — it is how Gmail and Outlook verify your mail is really yours. Too much trouble? We can register a dedicated review domain and pass the ~$15/year through — the trade is a new name with no history, so we recommend the subdomain.</li>
+    <li><b>Three lines of text, pasted once.</b> Email claiming your name has to prove it, or Gmail and Outlook treat it as an imposter. The proof lives in your domain's settings — the account where the domain is managed (GoDaddy, Cloudflare, or your IT department). We send three short lines, ready to paste; whoever has that login adds them in about ten minutes, one time, and the ask is done. If even that is a burden, we can register a dedicated review domain instead and pass the ~$15/year through — a new name with no history behind it, so we recommend the three lines.</li>
   </ul>
   <h3>The infrastructure</h3>
   <ul class="airy">
@@ -333,7 +318,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </div></section>
 
 <section class="slide" id="risks"><div class="inner">
-  <p class="eyebrow"><b>08</b> · Risks, named with owners</p>
+  <p class="eyebrow"><b>07</b> · Risks, named with owners</p>
   <h2>Every risk here was found before the contract, not after launch.</h2>
   <p class="lead">The full register runs 27 entries. These four shape the design.</p>
   <div class="cardlist">
@@ -358,7 +343,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </div></section>
 
 <section class="slide" id="testing"><div class="inner">
-  <p class="eyebrow"><b>09</b> · Testing</p>
+  <p class="eyebrow"><b>08</b> · Testing</p>
   <h2>Your name rides every email we send. The testing is sized to that.</h2>
   <h3>Before first real sends</h3>
   <ul class="airy">
@@ -379,7 +364,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </div></section>
 
 <section class="slide" id="build"><div class="inner">
-  <p class="eyebrow"><b>10</b> · Build plan</p>
+  <p class="eyebrow"><b>09</b> · Build plan</p>
   <h2>Three stages. 25–30 hours, capped at 30, inside two part-time weeks.</h2>
   <p class="lead">Spine first — every hour buys delivery integrity before polish. Nothing outside these stages blocks real sends.</p>
   <div class="tablewrap"><table>
@@ -392,7 +377,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </div></section>
 
 <section class="slide" id="cost"><div class="inner">
-  <p class="eyebrow"><b>11</b> · Running cost</p>
+  <p class="eyebrow"><b>10</b> · Running cost</p>
   <h2>About a dollar twenty per meeting.</h2>
   <p class="lead">Sized at 10 participants, one hour, on published July-2026 rates. No minimums, no annual contracts.</p>
   <div class="tablewrap"><table>
@@ -406,7 +391,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </div></section>
 
 <section class="slide" id="decisions"><div class="inner">
-  <p class="eyebrow"><b>12</b> · Decisions today</p>
+  <p class="eyebrow"><b>11</b> · Decisions today</p>
   <h2>Six calls make the plan fully concrete. All of them are yours.</h2>
   <p class="lead">None block the build from starting — each one settled today removes a fork.</p>
   <div class="cardlist">
@@ -437,7 +422,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
     </div>
     <div class="card decision">
       <h4>Link protection mode</h4>
-      <p>One-click for everyone, verification for everyone, or the toggle from slide 06 — chosen by each of your clients for their own meetings. If the toggle: who holds it, and the default.</p>
+      <p>One-click for everyone, verification for everyone, or the toggle from slide 05 — chosen by each of your clients for their own meetings. If the toggle: who holds it, and the default.</p>
       <span class="needs">Needed: the mode; if toggle — holder and default. All three in scope.</span>
     </div>
   </div>
