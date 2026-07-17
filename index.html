@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Meeting Review — Technical Plan</title>
+<title>DecIQ — MVP Identity and Delivery Plan</title>
 <style>
 :root {
   --ground: #ffffff;
@@ -129,11 +129,11 @@ strong { font-weight: 650; }
 .step .k { font-family: var(--mono); font-size: 12px; color: var(--accent); font-weight: 600; padding-top: 4px; letter-spacing: .08em; text-transform: uppercase; }
 .step .d { font-size: 16.5px; max-width: 60ch; }
 
-.rail7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin: 32px 0 10px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.rail6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; margin: 32px 0 10px; padding: 18px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 .node { text-align: center; }
 .node .num { font-family: var(--mono); font-size: 11px; color: var(--accent); display: block; }
 .node .nm { font-family: var(--serif); font-weight: 600; font-size: 15.5px; display: block; margin-top: 3px; }
-@media (max-width: 900px) { .rail7 { grid-template-columns: repeat(2, 1fr); row-gap: 14px; } }
+@media (max-width: 900px) { .rail6 { grid-template-columns: repeat(2, 1fr); row-gap: 14px; } }
 .legend { display: grid; grid-template-columns: 1fr 1fr; grid-auto-flow: column; grid-template-rows: repeat(4, auto); gap: 4px 48px; margin: 22px 0; }
 .legend div { font-size: 15px; padding: 9px 0; }
 .legend b { font-weight: 700; }
@@ -179,13 +179,13 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 </head>
 <body>
 <div class="topbar">
-  <span class="brand">Technical plan</span>
+  <span class="brand">MVP technical plan</span>
   <div class="navlinks" id="navlinks">
     <a href="#top">Start</a>
     <a href="#experience">Experience</a>
     <a href="#pipeline">Pipeline</a>
     <a href="#capture">Capture</a>
-    <a href="#guarantees">Guarantees</a>
+    <a href="#guarantees">Identity routes</a>
     <a href="#link">The link</a>
     <a href="#infra">Email &amp; infra</a>
     <a href="#risks">Risks</a>
@@ -194,41 +194,42 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
     <a href="#cost">Cost</a>
     <a href="#decisions">Decisions</a>
   </div>
-  <span class="counter" id="counter">1 / 13</span>
+  <span class="counter" id="counter">1 / 12</span>
 </div>
 
 <div class="deck" id="deck">
 
-<section class="slide" id="top"><div class="inner">
+<section class="slide current" id="top"><div class="inner">
   <p class="eyebrow">Technical plan · <b>July 2026</b></p>
-  <h1>Every participant gets a personalized review by email, within 20 minutes of the meeting.</h1>
-  <p class="lead">Capture, generation, and delivery for your clients' meetings, built to one rule: <strong>the right person gets the right review, and no one is ever skipped silently.</strong></p>
+  <h1>Personalized reviews go only to participants whose inbox binding is authoritatively proven.</h1>
+  <p class="lead">The MVP supports exactly two binding route families. <strong>Every absent, mismatched, or unsupported proof ends visibly non-bound, never as a guess.</strong></p>
   <div class="chips">
-    <div class="chip"><span class="n">≤ 20 min</span><span class="l">meeting end to inbox</span></div>
-    <div class="chip"><span class="n">~$1.20</span><span class="l">per meeting — 10 people, one hour</span></div>
-    <div class="chip"><span class="n">25–30 h</span><span class="l">initial MVP, three stages, capped at 30</span></div>
+    <div class="chip"><span class="n">2</span><span class="l">MVP binding route families</span></div>
+    <div class="chip"><span class="n">~$1.20</span><span class="l">per meeting — 10 delivered reviews, one hour</span></div>
+    <div class="chip"><span class="n">30 days</span><span class="l">guarded review-serving window</span></div>
   </div>
-  <p class="slidefoot">Zoom and Microsoft Teams · → steps through · 12 slides</p>
+  <p class="slidefoot">Microsoft calendar + Teams · Microsoft or Google calendar + Zoom · → steps through · 12 slides</p>
 </div></section>
 
 <section class="slide" id="experience"><div class="inner">
   <p class="eyebrow"><b>01</b> · The experience</p>
-  <h2>The organizer connects a calendar once. Nothing is asked of anyone else.</h2>
+  <h2>Calendar connection starts capture. Authoritative identity proof decides delivery.</h2>
   <div class="flow">
-    <div class="step"><div class="k">once</div><div class="d">The meeting organizer connects their calendar — one screen, one time. That is how the notetaker knows which meetings to join, and where reviews go.</div></div>
-    <div class="step"><div class="k">join</div><div class="d">A self-announcing notetaker joins the room with them.</div></div>
+    <div class="step"><div class="k">connect</div><div class="d">The organizer connects a Microsoft or Google calendar through a client-issued invitation. That connection selects meetings; it does not prove any participant's inbox.</div></div>
+    <div class="step"><div class="k">join</div><div class="d">A self-announcing, audio-only notetaker joins a supported Zoom or Teams meeting.</div></div>
     <div class="step"><div class="k">leave</div><div class="d">They just leave — nothing to start, stop, or upload.</div></div>
-    <div class="step"><div class="k">receive</div><div class="d">Within 20 minutes: an email from your domain. The meeting, the date, one button.</div></div>
-    <div class="step"><div class="k">read</div><div class="d">One click opens their review. Any device, 30 days — then one press resends a fresh link to the same address.</div></div>
+    <div class="step"><div class="k">bind</div><div class="d">Microsoft-calendar Teams uses tenant-aligned Microsoft Graph proof. Microsoft-or-Google-calendar Zoom uses native authoritative proof when available or a private participant DM followed by one-time inbox verification for client-scoped enrollment.</div></div>
+    <div class="step"><div class="k">receive</div><div class="d">Only proof-bound participants receive a guarded review link from the client's domain. Every other participant gets a recorded, client-legible non-bound outcome.</div></div>
+    <div class="step"><div class="k">read</div><div class="d">A valid participant session opens the review directly. A sessionless device requests a 15-minute magic sign-in link at the already-bound inbox; no viewing surface displays or asks for an email address.</div></div>
   </div>
-  <p class="soft">Every page, in the footer: <em>"prepared for &lt;name&gt; — not you? report."</em></p>
+  <p class="soft"><strong>Display names never authorize enrollment or delivery.</strong> They remain diagnostic input only.</p>
 </div></section>
 
 <section class="slide" id="pipeline"><div class="inner">
   <p class="eyebrow"><b>02</b> · The pipeline</p>
   <h2>The pipeline, in six pieces.</h2>
   <p class="lead">Each piece has one job — and a named behavior when it fails.</p>
-  <div class="rail7" style="grid-template-columns: repeat(6, 1fr)">
+  <div class="rail6">
     <div class="node"><span class="num">1</span><span class="nm">Capture</span></div>
     <div class="node"><span class="num">2</span><span class="nm">Generation</span></div>
     <div class="node"><span class="num">3</span><span class="nm">Checks</span></div>
@@ -237,66 +238,65 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
     <div class="node"><span class="num">6</span><span class="nm">The ledger</span></div>
   </div>
   <div class="legend" style="grid-template-rows: repeat(3, auto)">
-    <div><b>Capture</b> — a notetaker bot; transcript and attendee list, minutes after the end.</div>
+    <div><b>Capture</b> — an audio-only notetaker; normalized transcript and finalized participant artifact.</div>
     <div><b>Generation</b> — Claude runs your review logic. Faithfully, versioned.</div>
-    <div><b>Checks</b> — machine checks before anything sends; doubt holds.</div>
-    <div><b>The page</b> — a private page behind a hardened link. Your design, our serving.</div>
+    <div><b>Checks</b> — authoritative route proof before anything sends; absent proof ends non-bound.</div>
+    <div><b>The page</b> — a private page behind a hardened link and participant device session.</div>
     <div><b>The email</b> — from your domain; the link and nothing else.</div>
     <div><b>The ledger</b> — the audit trail: a row per person per meeting, every outcome accounted for, inspectable after the fact.</div>
   </div>
   <div class="callout">
     <span class="meta">The responsibility line</span>
-    <p>The wrong person seeing a review is our failure. No one seeing one is our failure. Either happening <em>silently</em> would be a failure on top — the ledger exists so it can't. The other side of the line: we run your review logic exactly as given; judging the coaching stays yours.</p>
+    <p>The wrong person seeing a review is our failure. An unexplained omission is our failure; an explicit non-bound outcome is the intended safe result when authoritative identity evidence is insufficient. The ledger makes every outcome visible. The other side of the line: we run your review logic exactly as given; judging the coaching stays yours.</p>
   </div>
 </div></section>
 
 <section class="slide" id="capture"><div class="inner">
   <p class="eyebrow"><b>03</b> · Capture</p>
   <h2>We buy capture from Recall.ai rather than building our own bot.</h2>
-  <p class="lead">Recall.ai puts notetaker bots into Zoom and Teams meetings; roughly 300 companies build on it — Instacart among them, alongside meeting products like Fellow and BrightHire.</p>
+  <p class="lead">Recall supplies calendar-controlled bots and participant artifacts for Zoom and Teams. DecIQ keeps identity authority in its own proof routes.</p>
   <div class="grid2">
-    <div class="g"><b>SOC 2 Type II</b>an independent auditor watched their security controls run for months — the certificate enterprise IT asks for first</div>
-    <div class="g"><b>ISO 27001</b>the international security-program standard, audited yearly</div>
-    <div class="g"><b>Zoom Preferred Partner</b>on Zoom's own vetted shortlist, under rules Zoom keeps tightening</div>
-    <div class="g"><b>EU hosting, healthcare-grade options</b>headroom for stricter clients later</div>
+    <div class="g"><b>Calendar-controlled admission</b>client-owned Microsoft or Google calendar connections select URL-bearing meetings through their end time</div>
+    <div class="g"><b>Audio only</b>no mixed video is captured; the privileged transcript is normalized from separate audio streams</div>
+    <div class="g"><b>Platform evidence</b>finalized participant identifiers support Teams proof; real-time Zoom join events support participant-specific private DM</div>
+    <div class="g"><b>Rejoin collapse</b>repeated appearances of the same authoritative platform principal reconcile to one meeting participant outcome</div>
   </div>
-  <p>When a counterparty's IT asks <em>"who exactly is this in our meeting?"</em> — this is a good answer to be holding. And our code touches the vendor through one thin adapter, with a validated fallback on file.</p>
+  <p><strong>The raw-media boundary:</strong> mixed audio exists only long enough to produce and normalize the separate-stream transcript. DecIQ then deletes all bot media immediately; every bot also carries a 24-hour timed-retention fail-safe.</p>
 </div></section>
 
 <section class="slide" id="guarantees"><div class="inner">
-  <p class="eyebrow"><b>04</b> · Delivery guarantees</p>
-  <h2>Checked by machine before every send.</h2>
-  <p class="lead">Milliseconds, on every email. A failed check stops the send — delivery is default-deny.</p>
+  <p class="eyebrow"><b>04</b> · Identity routes</p>
+  <h2>The MVP has exactly two binding route families.</h2>
+  <p class="lead">Delivery starts only after authoritative identity proof. <strong>Display names never authorize delivery.</strong></p>
   <div class="grid2">
-    <div class="g"><b>Ambiguity holds and alerts</b>with its reason — nothing ever sends on a guess; addresses come from the calendar record, never from a screen name or the transcript</div>
-    <div class="g"><b>Doubled signals can't double-send</b>one email, however often the platform repeats "meeting ended"</div>
-    <div class="g"><b>Every link carries its review's fingerprint</b>the page refuses to render mismatched content</div>
-    <div class="g"><b>The email carries no review content</b>a misdelivered email is an empty envelope</div>
-    <div class="g"><b>We look before we send</b>the system opens the page, sees the right review render, then mails</div>
-    <div class="g"><b>Thin coverage defaults to no review</b>"no review: reason," recorded and visible — the line can tune as the pilot learns</div>
+    <div class="g"><b>Microsoft calendar + Teams</b>A commercial <code>8:orgid</code> participant binds only when the connected calendar tenant aligns and Microsoft Graph resolves the exact Teams <code>user_id</code> to a non-null mailbox. Guest, federated, anonymous, personal-Teams, cross-tenant, tenant-mismatched, and unresolvable participants end non-bound.</div>
+    <div class="g"><b>Microsoft or Google calendar + Zoom</b>Zoom-native authoritative proof binds when available; otherwise a private participant-specific DM followed by one-time inbox verification creates a client-scoped enrollment. Names, invitee lists, claimed inboxes, and generic emailed claim links are not proof.</div>
+    <div class="g"><b>One-time, client-scoped enrollment</b>Inbox control is proved once per participant within one client. The enrollment is revocable and deletable; either action immediately prevents future use, and meeting replay cannot restore it.</div>
+    <div class="g"><b>Stable-principal recurrence</b>When Zoom exposes an authoritative stable cross-meeting principal, later meetings recognize that client-scoped enrollment automatically.</div>
+    <div class="g"><b>Meeting-local reconnection</b>A private DM proves only the addressed endpoint in the current meeting; it never reconnects an enrollment by itself. Reconnection additionally requires a participant-held enrollment credential, enrollment-authenticated session, or equivalent authoritative continuity proof issued at initial enrollment.</div>
+    <div class="g"><b>No proof, no delivery</b>Without valid continuity proof, the participant ends non-bound; inbox verification is not repeated. Every unsupported combination—including Google Meet—ends in a visible, client-legible non-bound outcome.</div>
   </div>
   <div class="callout">
-    <span class="meta">Said precisely</span>
-    <p>These guarantee the review <em>generated for a person</em> reaches that person, and no one else. What it says inside inherits the transcript — a limit your product design already accepts; optional guardrails are priced under Risks.</p>
+    <span class="meta">Hold is terminal</span>
+    <p>Proof-pending is time-bounded. Abandonment, expiry, revocation, or deterministic proof failure ends in a client-legible non-bound reason; no operator converts that outcome and no path falls back to names.</p>
   </div>
 </div></section>
 
 <section class="slide" id="link"><div class="inner">
   <p class="eyebrow"><b>05</b> · The link</p>
-  <h2>One click opens the review. The protections underneath add no friction.</h2>
+  <h2>The review link is guarded by a participant device session.</h2>
   <div class="grid2">
-    <div class="g"><b>Unguessable</b>a 256-bit key; wrong guesses see the same "not found" as nonsense links, and mass guessing is throttled and flagged</div>
-    <div class="g"><b>Nothing to steal from us</b>we store only one-way fingerprints of links; our logs never contain one</div>
-    <div class="g"><b>The review travels encrypted</b>between our server and the reader's device (HTTPS) — the page and its link are unreadable to the networks in between, hotel wifi and corporate proxies alike</div>
-    <div class="g"><b>No third parties in the path</b>click-tracking off, so the link never crosses another company's servers; no analytics on the page</div>
-    <div class="g"><b>Preview-proof</b>Slack and Outlook scanners get a neutral "your review is ready" card; a pasted link leaks nothing</div>
-    <div class="g"><b>Durable on purpose</b>live for 30 days; opening consumes nothing, so scanners can't burn access</div>
-    <div class="g"><b>"Not you?" kills the link</b>one press revokes that link, and the event is recorded so it's known</div>
+    <div class="g"><b>Unguessable and non-recoverable</b>the email carries a 256-bit capability; Postgres stores only its purpose-separated verifier and logs keep only a safe prefix</div>
+    <div class="g"><b>Neutral bare GET</b>a sessionless or scanner-shaped request receives the same zero-PII interstitial and consumes nothing; a forwarded URL reveals no review content</div>
+    <div class="g"><b>Direct with a valid session</b>a signed, HttpOnly device session bound to one participant principal within one client renders that participant's review directly</div>
+    <div class="g"><b>Magic link on a new device</b>the only action sends a single-use, 15-minute sign-in link to the already-bound inbox; the address is never displayed or typed on a viewing surface</div>
+    <div class="g"><b>One inbox verification</b>Zoom enrollment verification seeds the first device session. The enrolling device opens reviews without another identity prompt.</div>
+    <div class="g"><b>Bounded and revocable</b>device sessions roll for 90 days on valid use; Zoom enrollment revocation or deletion immediately invalidates its sessions and unused sign-in links</div>
+    <div class="g"><b>Thirty-day serving window</b>the review capability serves for 30 days from accepted delivery; renewal is a signed-in action and never asks for an inbox</div>
   </div>
-  <p>The trade is the same one Loom, Fathom, and Stripe make: <strong>whoever holds the URL can read that one review.</strong> For your clients who want more:</p>
   <div class="callout">
-    <span class="meta">Proposal — decision 6, last slide</span>
-    <p><strong>The identification toggle.</strong> Off: one-click, as above. On — flipped self-serve by any client of yours, for their own meetings — a new device asks once for a six-digit code sent to the participant's own inbox, then remembers it ~30 days. Stronger than a password in practice: it proves the inbox, which also defeats forwarding. The friction lands only on whoever chose it.</p>
+    <span class="meta">Purpose separation</span>
+    <p>A viewing session authorizes review access only. It is never accepted as proof for Zoom enrollment reconnection or endpoint reattachment; enrollment continuity uses a separate credential and verifier purpose.</p>
   </div>
 </div></section>
 
@@ -305,9 +305,9 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
   <h2>Postmark carries the mail from your subdomain; the infrastructure stays small enough to hand over.</h2>
   <h3>The email path</h3>
   <ul class="airy">
-    <li><b>A transactional-only sender.</b> Postmark refuses bulk marketers; independent tests rank its inbox placement first. Your mail rides that reputation, in its own stream.</li>
-    <li><b>Your domain, insulated.</b> Sending happens on a subdomain, reviews.your-domain.com — your company email is untouched.</li>
-    <li><b>Three lines of text, pasted once.</b> Email claiming your name must prove it, or Gmail and Outlook treat it as an imposter. We generate the proof and send it ready to paste; whoever manages your domain adds it — ten minutes, once — and review mail is authorized to carry your name. Prefer no DNS step? Mail can ride our established review domain instead — your brand in the sender name, though the address isn't yours; we recommend the three lines.</li>
+    <li><b>A dedicated transactional sender.</b> Each client binding uses one dedicated Postmark server and message stream; review and sign-in emails disable open and link tracking.</li>
+    <li><b>One exact client domain.</b> The HTTPS review host and visible <code>From</code> domain are the same approved subdomain. A mismatched origin, sender, or server credential fails closed before sending.</li>
+    <li><b>DNS proves the sender.</b> The client's domain owner adds Postmark DKIM and custom Return-Path records once. Both checks must pass before participant sends are enabled.</li>
   </ul>
   <h3>The infrastructure</h3>
   <ul class="airy">
@@ -320,7 +320,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 <section class="slide" id="risks"><div class="inner">
   <p class="eyebrow"><b>07</b> · Risks, named with owners</p>
   <h2>Four risks shape the design, and each has an owner.</h2>
-  <p class="lead">The full register runs 27 entries.</p>
+  <p class="lead">The full register runs 29 entries.</p>
   <div class="cardlist">
     <div class="card">
       <h4>Every participant must consent <span class="own shared">shared</span></h4>
@@ -328,7 +328,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
     </div>
     <div class="card">
       <h4>Teams can block outside bots from August 2026 <span class="own ours">ours to detect</span></h4>
-      <p>Next month, tenant admins get an off-switch for external notetakers. So admission is monitored per meeting from day one: the rate is in your weekly digest, a blocked counterparty is a same-day report, and Zoom's native feed — host-authorized, no bot in the room — stands as the hedge. We can't join where a tenant says no; we will never be silent about it.</p>
+      <p>Next month, tenant admins get an off-switch for external notetakers. So admission is monitored per meeting from day one: the rate is in your weekly digest, and a blocked counterparty is a same-day report with a visible no-review outcome. We can't join where a tenant says no; we will never be silent about it.</p>
     </div>
     <div class="card">
       <h4>EU rules ban emotion-reading at work <span class="own ours">ours, by design</span></h4>
@@ -339,7 +339,7 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
       <p>Transcripts misattribute and occasionally garble; tone can misfire in a hard meeting. That lives inside the review logic — your side of the line, a trade your design already accepts. Guardrails we recommend and have priced (speaker-count checks, quote verification, a style constitution, a skip-and-flag breaker): <strong>separately instructed work, not silently in this contract.</strong></p>
     </div>
   </div>
-  <p class="soft"><strong>The dependency chain</strong>: consent per meeting → tenants admitting the bot → calendar-to-email accuracy → your three DNS records → vendor continuity → transcript quality → model availability (softest — it queues).</p>
+  <p class="soft"><strong>The dependency chain</strong>: consent per meeting → tenants admitting the bot → authoritative route coverage → your sender-domain records → vendor continuity → transcript quality → model availability (softest — it queues).</p>
 </div></section>
 
 <section class="slide" id="testing"><div class="inner">
@@ -347,17 +347,18 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
   <h2>Every email goes out under your name. The testing is sized to that.</h2>
   <h3>Before first real sends</h3>
   <ul class="airy">
-    <li><b>Hostile rosters, by the thousand.</b> Duplicate names, diacritics, shared inboxes, no-shows. Everyone ends sent or held-with-reason; on an ambiguous roster, even a correct guess fails the test.</li>
-    <li><b>Breaking it on purpose.</b> Bot denied, ejected, empty transcript, doubled signals, our server down a day — each lands accounted and visible. Never a wrong send, never silence.</li>
-    <li><b>A staged live pass on Zoom and Teams.</b> Waiting rooms, the never-admitted bot, two identical names, a mid-meeting rename, a dial-in — recorded audio as the voices, so every hazard repeats exactly.</li>
-    <li><b>Attacking our own links.</b> Mass guessing, cross-link isolation, cache and referrer leaks, logs, scanner storms, expiry, revocation — exercised for real.</li>
+    <li><b>The complete route matrix.</b> Microsoft-calendar Teams and Microsoft-or-Google-calendar Zoom reach only their authoritative proof handlers. Every other calendar/platform pair, including Google Meet, ends terminal non-bound.</li>
+    <li><b>Identity attacks.</b> Duplicate names, renames, invitee claims, tenant mismatch, guest and anonymous participants, principal collisions, and shared inboxes never make a name or claim authoritative.</li>
+    <li><b>Zoom enrollment lifecycle.</b> Participant-specific DM, one-time inbox proof, cross-client isolation, stable-principal recurrence, meeting-local continuity, replacement, revocation, deletion, expiry, and replay are exercised together.</li>
+    <li><b>Controlled live passes on Teams and Zoom.</b> Teams is checked against the aligned Microsoft tenant. Zoom is checked across initial enrollment and recurrence; automated route checks cover both Microsoft and Google calendars.</li>
+    <li><b>Attacking our own links.</b> Mass guessing, crossed principals and clients, cache and referrer leaks, logs, scanner GETs, magic-link replay, session expiry, and revocation are exercised for real.</li>
     <li><b>Placement proven before real mail.</b> Seed inboxes, yours included; re-checked weekly through the pilot.</li>
     <li><b>The top-of-hour spike.</b> Meetings end together at :00 — tested at 3–5× peak, retry storms proven unable to double-send.</li>
   </ul>
   <h3>In production</h3>
   <ul class="airy">
     <li><b>The ledger detects silence.</b> Any row late to its state raises an alarm; the watcher is itself watched.</li>
-    <li><b>A daily rehearsal.</b> A synthetic meeting runs the whole chain into controlled inboxes; each must render its own unique marker. Weekly, the cast includes two identical names — the case that regresses quietly.</li>
+    <li><b>A daily rehearsal.</b> A synthetic meeting runs the whole chain into controlled inboxes; each proof-bound participant must render only its own unique marker, and every unsupported route must remain visibly non-bound.</li>
     <li><b>You stay informed without watching.</b> Alerts when something needs attention; a weekly digest of meetings, admission rate, sends, holds with reasons. Clicks counted, not "opens"; aggregates only.</li>
   </ul>
   <p class="soft">Recommended beyond this contract: the live pass monthly, drills automated, fuzzing to millions of cases.</p>
@@ -379,11 +380,11 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 <section class="slide" id="cost"><div class="inner">
   <p class="eyebrow"><b>10</b> · Running cost</p>
   <h2>About a dollar twenty per meeting.</h2>
-  <p class="lead">Sized at 10 participants, one hour, on published July-2026 rates. No minimums, no annual contracts.</p>
+  <p class="lead">Sized at 10 delivered reviews, one hour, on published July-2026 rates. No minimums, no annual contracts.</p>
   <div class="tablewrap"><table>
     <tr><th>Per meeting</th><th style="width:100px">Cost</th><th>Derivation</th></tr>
     <tr><td>Capture + transcription</td><td class="num">$0.65</td><td>$0.50 per recording-hour + $0.15 transcription, prorated to the second</td></tr>
-    <tr><td>Review generation</td><td class="num">~$0.50</td><td>≈15k tokens read + 2k written per review, Claude Sonnet 5 at $3 / $15 per million; ten reviews, transcript cached across them</td></tr>
+    <tr><td>Review generation</td><td class="num">~$0.50</td><td>≈15k tokens read + 2k written per review, Claude Sonnet 5 at $3 / $15 per million; 10 delivered reviews, transcript cached across them</td></tr>
     <tr><td>Email delivery</td><td class="num">~$0.02</td><td>flat platform share</td></tr>
     <tr><td><strong>All-in</strong></td><td class="num"><strong>~$1.20</strong></td><td></td></tr>
   </table></div>
@@ -392,8 +393,8 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
 
 <section class="slide" id="decisions"><div class="inner">
   <p class="eyebrow"><b>11</b> · Decisions today</p>
-  <h2>Six decisions we need from you. None blocks the start.</h2>
-  <p class="lead">Each one settled today removes a fork.</p>
+  <h2>The identity contract is settled. Six operating inputs remain.</h2>
+  <p class="lead">None may widen the two-route MVP or turn a display name into authority.</p>
   <div class="cardlist">
     <div class="card decision">
       <h4>How your review logic reaches us</h4>
@@ -406,9 +407,9 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
       <span class="needs">Needed: a rough split, even anecdotal.</span>
     </div>
     <div class="card decision">
-      <h4>Where capture comes from</h4>
-      <p>The lead lane: the organizer's one-time calendar connection — it is how the notetaker joins at all. Without it, capture is manual: the meeting link submitted to us beforehand, or a transcript supplied after. Workable, but labor.</p>
-      <span class="needs">Needed: bless the lead lane for the pilot.</span>
+      <h4>Calendar onboarding</h4>
+      <p>A client-issued, single-use invitation authorizes one Microsoft or Google calendar consent flow. The connected account owns scheduling admission; it does not prove organizer or participant identity.</p>
+      <span class="needs">Needed: name the controlled pilot calendars and their client owner.</span>
     </div>
     <div class="card decision">
       <h4>Expected volume</h4>
@@ -421,13 +422,13 @@ td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-spa
       <span class="needs">Needed: inherit or stand alone.</span>
     </div>
     <div class="card decision">
-      <h4>Link protection mode</h4>
-      <p>One-click for everyone, verification for everyone, or the toggle from slide 05 — chosen by each of your clients for their own meetings. If the toggle: who holds it, and the default.</p>
-      <span class="needs">Needed: the mode; if toggle — holder and default. All three in scope.</span>
+      <h4>Review host and sender domain</h4>
+      <p>Each client needs one approved HTTPS review origin on the same domain as its visible sender, backed by that client's dedicated Postmark server binding.</p>
+      <span class="needs">Needed: the client subdomain, visible From identity, and monitored Reply-To.</span>
     </div>
   </div>
-  <p class="soft">Headed to contract, prepared on our side: the consent split and playbook; retention — audio purged on transcription, transcripts 30 days, links 30 with resend; account ownership at kickoff.</p>
-  <p class="slidefoot">Meeting review — technical plan · July 2026</p>
+  <p class="soft">Headed to contract, prepared on our side: the consent split and playbook; retention — bot media deleted after transcript normalization, transcripts and meeting identity 30 days, review serving 30 days, client-retained review until client-directed deletion; account ownership at kickoff.</p>
+  <p class="slidefoot">DecIQ — MVP identity and delivery plan · July 2026</p>
 </div></section>
 
 </div>
